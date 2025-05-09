@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dastin Design Studio</title>
+  <link rel="stylesheet" href="style/main.css" />
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: 1rem;
+    }
+
+    main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 5;
+    }
+
+    /* 🔁 淡出动画 */
+    .fade-out {
+      animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+        display: block;
+      }
+
+      main h2 {
+        font-size: 2rem;
+      }
+
+      main p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body id="page-body">
+  <header>
+    <h1>Dastin Studio</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Welcome to My Portfolio</h2>
+    <p>Design. Code. Collaborate.</p>
+  </main>
+
+  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+  <script src="script/main.js"></script>
+</body>
+</html>
