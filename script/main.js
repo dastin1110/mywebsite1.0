@@ -40,7 +40,7 @@ function animate() {
   renderer.render(scene, camera);
 
   // 🎯 满足条件后跳转
-  if (scaleFactor >= 10 && !redirected) {
+  if (scaleFactor >= 5 && !redirected) {
     redirected = true;
     document.getElementById("page-body").classList.add("fade-out");
     setTimeout(() => {
