@@ -1,3 +1,6 @@
+body {
+  outline: 5px dashed red;
+}
 /* Reset & base */
 * {
   margin: 0;
