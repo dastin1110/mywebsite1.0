@@ -1,6 +1,4 @@
-/* ===== style/project.css ===== */
-
-/* Reset */
+/* Reset basic elements */
 * {
   margin: 0;
   padding: 0;
@@ -8,28 +6,29 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: black;
+  font-family: 'Arial', sans-serif;
   color: white;
+  background-color: black;
   overflow-x: hidden;
 }
 
+/* Header */
 header {
   position: fixed;
+  width: 100%;
   top: 0;
   left: 0;
-  width: 100%;
-  background: black;
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  background: black;
 }
 
 header h1 {
   font-size: 1.8rem;
-  color: white;
+  color: #ffffff;
 }
 
 nav a {
@@ -44,28 +43,29 @@ nav a:hover {
   color: white;
 }
 
+/* Main content */
 main {
-  padding-top: 120px;
+  margin-top: 100px;
   padding: 20px;
 }
 
-/* Filter Buttons */
+/* Filter buttons */
 .filter-buttons {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
   margin-bottom: 30px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 8px 20px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
   background: transparent;
+  border: 1px solid #ccc;
   color: #ccc;
-  font-size: 1rem;
+  padding: 8px 20px;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1rem;
 }
 
 .filter-btn:hover,
@@ -75,36 +75,38 @@ main {
   font-weight: bold;
 }
 
-/* Project Grid */
+/* Project grid */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
 }
 
 .project-card {
   background-color: #1a1a1a;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .project-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
 .project-card .card-info {
-  padding: 12px;
+  padding: 15px;
 }
 
 .project-card h3 {
+  margin-bottom: 8px;
   font-size: 1.2rem;
   color: #fff;
-  margin-bottom: 8px;
 }
 
 .project-card p {
@@ -114,49 +116,62 @@ main {
 
 .project-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 15px #fff4;
+  box-shadow: 0 0 15px #fff5;
 }
 
 .project-card:hover img {
   transform: scale(1.05);
 }
 
-/* Overlay Styles */
+/* Overlay for project detail */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
-  overflow-y: auto;
   padding: 40px;
-}
-
-.overlay.hidden {
-  display: none;
+  z-index: 2000;
 }
 
 .overlay-content {
-  max-width: 800px;
-  text-align: left;
+  max-width: 900px;
+  width: 90%;
+  background-color: #111;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #fff2;
+  position: relative;
   color: white;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.overlay-content h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.overlay-content p {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #ccc;
 }
 
 .overlay-content img {
   width: 100%;
+  margin-top: 20px;
   border-radius: 10px;
-  margin: 20px 0;
 }
 
-.close-btn {
+.overlay-close {
   position: absolute;
-  top: 40px;
-  right: 40px;
+  top: 15px;
+  right: 20px;
   font-size: 2rem;
   cursor: pointer;
   color: #fff;
@@ -167,74 +182,17 @@ main {
   .filter-buttons {
     justify-content: center;
   }
+
   header {
     flex-direction: column;
     align-items: flex-start;
   }
+
   nav {
     margin-top: 10px;
   }
+
+  .overlay-content {
+    padding: 20px;
+  }
 }
-
-
-/* ===== script/project.js ===== */
-
-document.addEventListener("DOMContentLoaded", function () {
-  const filterButtons = document.querySelectorAll(".filter-btn");
-  const cards = document.querySelectorAll(".project-card");
-
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      filterButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      const filter = button.dataset.filter;
-      cards.forEach((card) => {
-        if (filter === "all" || card.classList.contains(filter)) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    });
-  });
-
-  // Overlay
-  const overlay = document.getElementById("projectOverlay");
-  const overlayImage = document.getElementById("overlayImage");
-  const overlayTitle = document.getElementById("overlayTitle");
-  const overlayIntro = document.getElementById("overlayIntro");
-  const overlayCategory = document.getElementById("overlayCategory");
-  const overlayDescription = document.getElementById("overlayDescription");
-  const closeBtn = document.querySelector(".close-btn");
-
-  document.querySelectorAll(".project-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const img = card.querySelector("img");
-      const title = card.querySelector("h3").innerText;
-      const intro = card.querySelector("p").innerText;
-      const category = [...card.classList].find(
-        (cls) => cls !== "project-card"
-      );
-
-      overlayImage.src = img.src;
-      overlayTitle.textContent = title;
-      overlayIntro.textContent = intro;
-      overlayCategory.textContent = category;
-      overlayDescription.textContent =
-        "This is a more detailed description for " + title + ".";
-
-      overlay.classList.remove("hidden");
-    });
-  });
-
-  closeBtn.addEventListener("click", () => {
-    overlay.classList.add("hidden");
-  });
-
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
-      overlay.classList.add("hidden");
-    }
-  });
-});
