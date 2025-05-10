@@ -1,12 +1,15 @@
-// 筛选功能
-document.querySelectorAll(".filter-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    // 设置按钮激活样式
-    document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+// 分类按钮逻辑
+const filterButtons = document.querySelectorAll(".filter-btn");
+const cards = document.querySelectorAll(".project-card");
 
-    const filter = btn.getAttribute("data-filter");
-    document.querySelectorAll(".project-card").forEach((card) => {
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    // 更新激活按钮状态
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    const filter = button.dataset.filter;
+    cards.forEach(card => {
       if (filter === "all" || card.classList.contains(filter)) {
         card.style.display = "block";
       } else {
@@ -16,43 +19,41 @@ document.querySelectorAll(".filter-btn").forEach((btn) => {
   });
 });
 
-// 添加放大预览逻辑
-document.querySelectorAll(".project-card").forEach((card) => {
-  card.addEventListener("click", () => {
-    const title = card.querySelector("h3").innerText;
-    const desc = card.querySelector("p").innerText;
-    const imgSrc = card.querySelector("img").getAttribute("src");
+// 弹窗逻辑
+const overlay = document.getElementById('projectOverlay');
+const overlayImage = document.getElementById('overlayImage');
+const overlayTitle = document.getElementById('overlayTitle');
+const overlayIntro = document.getElementById('overlayIntro');
+const overlayCategory = document.getElementById('overlayCategory');
+const overlayDescription = document.getElementById('overlayDescription');
+const closeBtn = document.querySelector('.close-btn');
 
-    // 如果已存在 overlay，先删除
-    const oldOverlay = document.querySelector(".overlay");
-    if (oldOverlay) oldOverlay.remove();
+// 每个卡片绑定点击事件
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const img = card.querySelector('img');
+    const title = card.querySelector('h3').innerText;
+    const intro = card.querySelector('p').innerText;
+    const category = [...card.classList].find(cls => cls !== 'project-card');
 
-    // 创建 overlay 元素
-    const overlay = document.createElement("div");
-    overlay.className = "overlay";
+    overlayImage.src = img.src;
+    overlayTitle.textContent = title;
+    overlayIntro.textContent = intro;
+    overlayCategory.textContent = category;
+    overlayDescription.textContent = `${title} is a ${category} project.`;
 
-    overlay.innerHTML = `
-      <div class="overlay-content">
-        <span class="overlay-close">&times;</span>
-        <h2>${title}</h2>
-        <p>${desc}</p>
-        <img src="${imgSrc}" alt="${title}">
-      </div>
-    `;
-
-    document.body.appendChild(overlay);
-    overlay.style.display = "flex";
-
-    // 关闭按钮逻辑
-    overlay.querySelector(".overlay-close").addEventListener("click", () => {
-      overlay.remove();
-    });
-
-    // 点击空白区域关闭
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) {
-        overlay.remove();
-      }
-    });
+    overlay.classList.remove("hidden");
   });
+});
+
+// 关闭按钮事件
+closeBtn.addEventListener('click', () => {
+  overlay.classList.add("hidden");
+});
+
+// 点击覆盖层其他区域也关闭
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) {
+    overlay.classList.add("hidden");
+  }
 });
